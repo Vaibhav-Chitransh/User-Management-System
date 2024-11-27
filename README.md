@@ -136,7 +136,7 @@ User-Management-System/
 │   └── public/
 
 
-###Contributing
+## Contributing
 
 We welcome contributions to enhance the project! Please follow these steps:
 
@@ -152,7 +152,7 @@ We welcome contributions to enhance the project! Please follow these steps:
    git push origin feature-name
 5. Create a pull request.
 
-###Contact
+## Contact
 
 For any queries or suggestions, feel free to reach out:
 
