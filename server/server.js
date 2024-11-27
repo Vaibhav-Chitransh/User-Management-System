@@ -1,17 +1,19 @@
 // k4pnLlOzFRSPMsLh
 const express = require('express');
 const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./database/db.js')
-
 dotenv.config();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const connectDB = require('./database/db.js')
+const userRoutes = require('./routes/userRoutes.js');
+
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 connectDB();
 
-const userRoutes = require('./routes/userRoutes.js');
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
