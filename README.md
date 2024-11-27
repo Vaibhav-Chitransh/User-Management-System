@@ -59,14 +59,17 @@ To set up the User Management System on your local machine, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Vaibhav-Chitransh/User-Management-System.git 
-2. Navigate to the project directory:
+   git clone https://github.com/Vaibhav-Chitransh/User-Management-System.git
+   
+3. Navigate to the project directory:
     ```bash
    cd User-Management-System
-3. Install the required dependencies:
+    
+4. Install the required dependencies:
     ```bash
    npm install
-4. Start the application:
+    
+5. Start the application:
     ```bash
     Open your browser and go to http://localhost:3000
 
