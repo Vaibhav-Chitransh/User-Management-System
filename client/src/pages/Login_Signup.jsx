@@ -10,7 +10,8 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { useState } from "react";
-import bcrypt from "bcryptjs-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login_Signup = ({
   currentUser,
@@ -25,6 +26,8 @@ const Login_Signup = ({
   });
 
   const [loginInput, setLoginInput] = useState({ email: "", password: "" });
+
+  const navigate = useNavigate();
 
   const changeInputHandler = (e, type) => {
     const { name, value } = e.target;
@@ -48,6 +51,10 @@ const Login_Signup = ({
     });
   };
 
+  const api = axios.create({
+    baseURL: 'http://localhost:3000/api'
+  });
+
   const handleRegistration = async (type) => {
     try {
       if (type === "signup") {
@@ -56,15 +63,10 @@ const Login_Signup = ({
           return;
         }
 
-        const hashedPassword = await bcrypt.hash(signupInput.password, 10);
-
         const newUser = {
-          id: Date.now(),
-          name: signupInput.name,
+          username: signupInput.name,
           email: signupInput.email,
-          password: hashedPassword,
-          role: "Viewer",
-          status: "Active",
+          password: signupInput.password
         };
 
         let fl = false;
@@ -78,21 +80,34 @@ const Login_Signup = ({
         });
 
         if (!fl) {
-          setUserList([...userList, newUser]);
-          setCurrentUser(newUser);
-          alert_box('success', 'Thank You!', "Signup successful!", '#7CFC00');
+          const response = await api.post('/users/signup', newUser);
+          console.log(response);
+
+          if(response.status === 201) {
+            setUserList([...userList, response.data.user]);
+            setCurrentUser(response.data.user);
+            navigate('/users');
+            alert_box('success', 'Thank You!', "Signup successful!", '#7CFC00');
+          }
         }
       } else {
-        const user = userList.find((u) => u.email === loginInput.email);
+        const userCredentials = {
+          email: loginInput.email,
+          password: loginInput.password
+        }
 
-        if (
-          user &&
-          (await bcrypt.compare(loginInput.password, user.password))
-        ) {
-          setCurrentUser(user);
+        const token = localStorage.getItem('token');
+        const res = await api.post('/users/login', userCredentials, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if(res.status === 200) {
+          localStorage.setItem('token', res.data.token);
+          setCurrentUser(res.data.user);
+          navigate('/users');
           alert_box('success', 'Welcome!', "Login successful!", '#7CFC00');
-        } else {
-          alert_box('error', 'Error!', "Invalid email or password.", '#FF0000');
         }
       }
     } catch (error) {

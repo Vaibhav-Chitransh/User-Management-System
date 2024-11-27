@@ -1,21 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Edit, Trash2 } from "lucide-react";
 import AddUserTab from "../components/layout/AddUserTab";
 import EditUserTab from "../components/layout/EditUserTab";
+import axios from "axios";
 
 const Users = ({userList, setUserList, currentUser}) => {
   const [newUser, setNewUser] = useState(false);
   const [editUser, setEditUser] = useState(0);
 
-  console.log(currentUser);
+  const api = axios.create({
+    baseURL: 'http://localhost:3000',
+  })
 
-  const deleteUser = (id) => {
+  const fetchUsers = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if(!token) throw new Error('No authentication token found');
+      const res = await api.get('/api/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('Fethched Users: ', res.data);
+      setUserList(res.data);
+    } catch (error) {
+      console.error('Users Fetch Error: ', error);``
+      alert('Failed to fetch users. Please try again later.');
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const deleteUser = async (id) => {
     if(currentUser.role !== 'Admin') {
       alert('You do not have permission to delete users.');
       return ;
     }
-    setUserList(userList.filter((user) => user.id !== id));
+    
+    try {
+      const token = localStorage.getItem('token');
+      if(!token) throw new Error('No authentication token found');
+
+      await api.delete(`/api/users/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      setUserList(userList.filter((user) => user.id !== id));
+      alert('User deleted successfully');
+    } catch (error) {
+      console.error('Error updating user: ', error);
+      alert('Failed to delete user. Please try again later.');
+    }
   };
 
   const addUser = () => {
@@ -57,7 +100,7 @@ const Users = ({userList, setUserList, currentUser}) => {
           {userList.map((user) => {
             return (
                 <tr key={user.id} className={`border-b-2 border-gray-300 ${currentUser && user.email === currentUser.email ? 'bg-blue-100' : ''}`}>
-                  <td className="py-4 px-4">{user.name}</td>
+                  <td className="py-4 px-4">{user.username}</td>
                   <td className="py-4 px-4">{user.email}</td>
                   <td className="py-4 px-4">{user.role}</td>
                   <td className="py-4 px-4">

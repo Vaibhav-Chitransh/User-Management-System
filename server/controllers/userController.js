@@ -15,6 +15,7 @@ const signupUser = async (req, res) => {
     const {username, email, password} = req.body;
 
     try {
+        console.log({username, email});
         const existingUser = await User.findOne({email});
         if(existingUser) return res.status(400).json({message: 'User already exists'});
 
@@ -23,6 +24,7 @@ const signupUser = async (req, res) => {
 
         res.status(201).json({message: 'User created successfully', user: newUser});
     } catch (error) {
+        console.log(error);
         res.status(500).json({message: error.message});
     }
 }
@@ -38,13 +40,13 @@ const loginUser = async (req, res) => {
         if(!isMatch) return res.status(400).json({message: 'Invalid credentials'});
 
         const token = jwt.sign(
-            {userId: user._id, role: user.role},
+            {userId: user._id, role: user.role, email: user.email},
             process.env.SECRET_KEY,
             { expiresIn: '1h' }
 
         );
 
-        res.json({token, user: {id: user._id, email: user.email, role: user.role}});
+        res.json({token, user: {id: user._id, email: user.email, username: user.username, role: user.role}});
     } catch (error) {
         console.log(error);
         res.status(500).json({message: error.message});
