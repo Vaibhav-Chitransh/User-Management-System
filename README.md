@@ -21,17 +21,29 @@ In this project, I played a key role in implementing the RBAC UI. I was responsi
 
 Here are some screenshots of the User Management System UI:
 
-![User  Registration](path/to/registration_image.png)
+![User  Registration](./images/signup_image.png)
 User  Registration Page
 
-![User  Login](path/to/login_image.png)
+![User  Login](./images/login_image.png)
 User  Login Page
 
-![Dashboard](path/to/dashboard_image.png)
+![Dashboard](./images/users_tab.png)
 Admin Dashboard
 
-![Role Management](path/to/role_management_image.png)
+![Add User](./images/add_user_tab.png)
+Add User Tab
+
+![Role Management](./images/roles_tab.png)
 Role Management Page
+
+![Permissions Management](./images/permissions_tab.png)
+Permissions Management Page
+
+![Role Permissions Management](./images/role-permissions_tab.png)
+Role Permissions Management Page
+
+![Edit Role Permissions](./images/edit_permissions_tab.png)
+Edit Role Permissions Tab
 
 ## Getting Started
 
@@ -39,8 +51,8 @@ To set up the User Management System on your local machine, follow these steps:
 
 ### Prerequisites
 
-- Node.js (version X.X.X)
-- npm (version X.X.X)
+- Node.js (version 22.6.0)
+- npm (version 10.8.2)
 - MongoDB (or any other database you are using)
 
 ### Installation
@@ -48,3 +60,14 @@ To set up the User Management System on your local machine, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/Vaibhav-Chitransh/User-Management-System.git 
+2. Navigate to the project directory:
+    ```bash
+   cd User-Management-System
+3. Install the required dependencies:
+    ```bash
+   npm install
+4. Start the application:
+    ```bash
+    Open your browser and go to http://localhost:3000
+
+
