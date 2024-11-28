@@ -41,6 +41,12 @@ The **User Management System** is a robust web application designed to streamlin
 - **Key Highlights**: 
   - Graphical representation of user data.
   - Real-time updates powered by RESTful APIs.
+ 
+### Customized Alert Box
+- **Description**: A customizable alert box to display error messages to users.
+- **Key Highlights**:
+  - Provides clear feedback on errors during user interactions.
+  - Easy to integrate and customize for different use cases.
 
 ## Screenshots
 
@@ -69,6 +75,12 @@ Below are snapshots showcasing various features of the system:
 
 ![Edit Role Permissions](./images/edit_permissions_tab.png)
 **Edit Role Permissions Tab**
+
+![Customized Alert Box](./images/alert_box_errorMsg%20(2).png)
+**Customized Alert Box Example**
+
+![Customized Alert Box](./images/alert_box_errorMsg%20(3).png)
+**Customized Alert Box Example**
 
 ## Getting Started
 
